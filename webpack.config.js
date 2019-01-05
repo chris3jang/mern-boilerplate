@@ -1,19 +1,3 @@
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      }
-    ]
-  }
-};
-
-
-/*
 var path = require('path');
 var webpack = require('webpack');
 
@@ -32,7 +16,7 @@ module.exports = {
         include: path.join(__dirname, 'app'),
         exclude: /node_modules/,
         query: {
-          presets: ['es2015', 'react', 'env', 'stage-0']
+          presets: ['es2015', 'react', 'env']
         }
       },
       {
@@ -54,4 +38,3 @@ module.exports = {
     ]
   },
 };
-*/
