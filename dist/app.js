@@ -2,7 +2,7 @@
 const Server = require('./server.js')
 const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser')
-//const db = require('./config/db') || null;
+const db = require('./config/db') || null;
 const port = (process.env.PORT || 8080)
 const app = Server.app()
 
@@ -17,8 +17,8 @@ const router = express.Router()
 
 //app.use(passport.initialize());
 
-//let uri
-//if(db) uri = db.url
+let uri
+if(db) uri = db.url
 
 //process.env.MONGODB_URI 
 
@@ -40,15 +40,23 @@ if (process.env.NODE_ENV !== 'production') {
   }))
 }
 
-MongoClient.connect(process.env.MONGODB_URI, (err, database) => {
+
+MongoClient.connect(uri, { useNewUrlParser: true}, (err, database) => {
 
   if (err) return console.log(err);
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json())
-  require('./routes')(app, database.db("nodjsapitutdb"));
-
+  require('./routes')(app, database.db("boilerplate"));
 
   app.listen(port, () => {
     console.log('We are live on http://localhost:' + port);
   });               
 })
+
+
+
+// for deployment
+// 1) commment out line 5: const db = require('./config/db') || null
+// 2) comment out lines 20 and 21: let uri; if(db) uri = db.url
+// 3) comment out line 32: const config = require('../webpack.config.js')
+// 4) replace var uri with process.env.MONGODB_URI at line 43
